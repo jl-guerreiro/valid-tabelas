@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Tabelas</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script
+    type="text/javascript"
+    src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"
+  ></script>
+  <script src="./lista_tabelas.js"></script>
+
+  <style type="text/css">
+    body {
+  background: #20262E;
+  padding: 20px;
+  font-family: Helvetica;
+}
+
+#banner-message {
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  font-size: 25px;
+  text-align: center;
+  transition: all 0.2s;
+  margin: 0 auto;
+  width: 300px;
+}
+
+button {
+  background: #0084ff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 14px;
+  font-size: 15px;
+  color: #fff;
+}
+
+</style>
+<script type="text/javascript">
+
+window.onload=function(){
+      
+// find elements
+var banner = $("#banner-message");
+var button = $("button");
+var label = $("#l1");
+var text1 = $("#t1");
+var text2 = $("#t2");
+var text3 = $("#t3");
+var text4 = $("#t4");
+var text5 = $("#t5");
+var text6 = $("#t6");
+
+// handle click
+button.on("click", function() {
+  var tabelas = getTabelas().lista;
+  var numeros = [];
+  var result = "";
+  numeros.push(text1.val());
+  numeros.push(text2.val());
+  numeros.push(text3.val());
+  numeros.push(text4.val());
+  numeros.push(text5.val());
+  numeros.push(text6.val());
+  numeros.sort();
+  console.log(numeros);
+  var magic = 6;
+  for (var i = 0; i < tabelas.tabela.length; i++) {
+    var total = 0;
+    var tabNumbers = tabelas.tabela[i].numbers.split(",");
+    for (var j = 0; j < tabNumbers.length; j++) {
+      for (var k = 0; k < numeros.length; k++) {
+        if (numeros[k] == tabNumbers[j]) {
+          total++;
+        }
+        if (magic == total) break;
+      }
+    }
+    if (magic == total) result += tabelas.tabela[i].id + " , ";
+  }
+  if(result=="") result = "Nenhuma tabela";
+  label.val(result);
+});
+
+}
+</script>
+</head>
+<body>
+  <div id="banner-message">
+<h3>
+Tabelas :: Validar
+</h3>
+<input id="t1" type="number"><br/>
+<input id="t2" type="number"><br/>
+<input id="t3" type="number"><br/>
+<input id="t4" type="number"><br/>
+<input id="t5" type="number"><br/>
+<input id="t6" type="number"><br/><br/>
+  <button>Validar</button>
+<br/><br/>
+<textarea rows="6" id="l1" readonly></textarea>
+</div>
+  
+<script>
+    if (window.parent && window.parent.parent){
+      window.parent.parent.postMessage(["resultsFrame", {
+        height: document.body.getBoundingClientRect().height,
+        slug: ""
+      }], "*")
+    }
+</script>
+</body>
+</html>
